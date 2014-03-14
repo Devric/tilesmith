@@ -1,3 +1,13 @@
+/**
+ *  Building tiles
+ *
+ *  @param {String} el   : container of the tile
+ *  @param {Object} data : 
+ *
+ *  return @method init(props)   :
+ *  return @method prepend(data) :
+ *  return @method append(data)  :
+ */
 ;var tilesmith = function(el, data){ 
 
     // where to get data from dom or object
@@ -16,10 +26,8 @@
     var tilesmith = this
 
     var buildProps = function() {
-        tilesmith.dataList  = getData()
         tilesmith.ctn       = document.querySelector(el)
-        tilesmith.items     = ctn.querySelectorAll('.item')
-        tilesmith.list      = slice(items)
+        tilesmith.list      = data ? data : slice(tilesmith.ctn.querySelectorAll('.item'))
         tilesmith.tempCount = 0
 
         tilesmith.margin    = 0
@@ -32,11 +40,18 @@
     }
 
     var init = function(props) {
-        console.log(list)
+        buildProps()
+        console.log(tilesmith.list)
+    }
+
+    var add = function(data, position) {
+        
     }
     
     return {
         init : init
+      , append  : add(data, 'append')
+      , prepend : add(data, 'prepend')
     }
 
     // helpers
@@ -83,4 +98,4 @@ list.forEach(function(node){
 
 tilesmith('#container').init({ 
 
-})
+});
