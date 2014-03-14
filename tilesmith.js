@@ -10,17 +10,94 @@
  */
 ;var tilesmith = function(el, data){ 
     // helper methods
-    var getStyle = window.getComputedStyle
+    var getStyle = function getStyle(el, prop) {
+            return el.currentStyle ?
+		   el.currentStyle : // IE
+		   document.defaultView.getComputedStyle(el, "");
+        }
       , slice = Function.prototype.call.bind(Array.prototype.slice)
+      , fragment = document.createDocumentFragment
 
     // defaut prop
     var tilesmith = this
 
-    // where to get data from dom or object
-    // build props
-    // build column
-        // append nodes column
-    // append column
+    var buildProps = function() {
+        tilesmith.ctn      = document.querySelector(el)
+        tilesmith.ctnWidth = parseInt(getStyle(tilesmith.ctn).width)
+        tilesmith.list     = data ? data : slice(tilesmith.ctn.querySelectorAll('.item'))
+
+        // create fake data
+        var faker = document.createElement('div')
+        faker.className = 'item hidden'
+        document.body.appendChild(faker)
+        var  elStyle = getStyle(faker)
+
+        tilesmith.margin    = parseInt(elStyle.marginRight)
+        tilesmith.colWidth  = parseInt(elStyle.width)
+        tilesmith.colCount  = Math.floor(tilesmith.ctnWidth / tilesmith.colWidth)
+
+        tilesmith.computeWidth = tilesmith.ctnWidth / tilesmith.colCount
+
+        // remove faker
+        document.body.removeChild(faker)
+    }
+
+    var colBuilder = function(prop) {
+
+        var cols = []
+        ;
+
+        // create col DOM el
+        var i =0
+        for (; i<tilesmith.colCount; i++) {
+        var div             = document.createElement('div')
+            div.className   = 'tilesmith-col'
+            div.style.width = tilesmith.computeWidth + 'px'
+            div.style.float = 'left'
+            cols.push(div)
+        }
+
+        // put nodes into columns
+        var count = 0
+        tilesmith.list.forEach(function(node){
+            if (count > tilesmith.colCount - 1) {count=0;}
+            cols[count].appendChild(node);
+            count ++;
+        })
+
+        // put into dom
+        tilesmith.ctn.innerHTML = null
+        cols.forEach(function(col){
+            tilesmith.ctn.appendChild(col)
+        })
+        /*
+        */
+    }
+
+    function relocate() {
+        var cols = document.querySelectorAll('.tilesmith-col')
+          , cols = slice(cols)
+          , tallest , shortest
+
+        var tallestEl = cols.reduce(function(a,b){
+            return ( getStyle(a).height > getStyle(b).height ? a : b )
+        })
+        var shortestEl = cols.reduce(function(a,b){
+            return ( getStyle(a).height < getStyle(b).height ? a : b )
+        })
+
+        var tallest  = getStyle(tallestEl).height
+          , shortest = getStyle(shortestEl).height
+
+        console.log(tallest)
+        console.log(shortest)
+    }
+
+    var init = function(props) {
+        buildProps()
+        colBuilder()
+        relocate()
+    }
 
     // onResize
     // rebuild props
@@ -28,31 +105,7 @@
         // change rebuild column
         // append nodes to column
         // append column
-
-    var buildProps = function() {
-        tilesmith.ctn       = document.querySelector(el)
-        tilesmith.list      = data ? data : slice(tilesmith.ctn.querySelectorAll('.item'))
-
-        tilesmith.margin    = 0
-        tilesmith.colWidth  = 0
-        tilesmith.colCount  = 0
-    }
-
-    var colBuilder = function(prop) {
-        
-    }
-
-    var init = function(props) {
-        buildProps()
-        console.log(tilesmith.list)
-
-        var list = tilesmith.list[0]
-        console.log(getStyle(list).height)
-    }
-
-    var add = function(data, position) {
-        
-    }
+    var add = function(data, position) {}
     
     return {
         init : init
@@ -62,32 +115,7 @@
 
 }
 
-/*
-var el = document.querySelectorAll('.item');
-var c = document.querySelector('#c');
-var b = document.querySelector('#b');
-var a = document.querySelector('#a');
-
-var list = [];
-
-elList = Array.prototype.slice.call(el);
-
-elList.forEach(function(node){
-  list.push(node);
-  node.parentNode.removeChild(node)
-});
-
-var cols = [a,b,c];
-
-var tempCount = 0;
-list.forEach(function(node){
-  if (tempCount > 2) {console.log('--'); tempCount=0;}
-  console.log(node);
-  cols[tempCount].appendChild(node);
-  tempCount ++;
-});
-*/
-
 tilesmith('#container').init({ 
 
 });
+
