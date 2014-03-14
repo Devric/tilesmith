@@ -9,6 +9,12 @@
  *  return @method append(data)  :
  */
 ;var tilesmith = function(el, data){ 
+    // helper methods
+    var getStyle = window.getComputedStyle
+      , slice = Function.prototype.call.bind(Array.prototype.slice)
+
+    // defaut prop
+    var tilesmith = this
 
     // where to get data from dom or object
     // build props
@@ -23,12 +29,9 @@
         // append nodes to column
         // append column
 
-    var tilesmith = this
-
     var buildProps = function() {
         tilesmith.ctn       = document.querySelector(el)
         tilesmith.list      = data ? data : slice(tilesmith.ctn.querySelectorAll('.item'))
-        tilesmith.tempCount = 0
 
         tilesmith.margin    = 0
         tilesmith.colWidth  = 0
@@ -42,6 +45,9 @@
     var init = function(props) {
         buildProps()
         console.log(tilesmith.list)
+
+        var list = tilesmith.list[0]
+        console.log(getStyle(list).height)
     }
 
     var add = function(data, position) {
@@ -54,20 +60,6 @@
       , prepend : add(data, 'prepend')
     }
 
-    // helpers
-    function slice(obj){
-        return Array.prototype.slice.call(obj)
-    }
-
-    function get_type(thing){
-        if(thing===null)return "[object Null]"; // special case
-        return Object.prototype.toString.call(thing);
-    }
-
-    function is(obj, type) {
-        var klass 	= Object.prototype.toString.call(obj).slice(8, -1);
-        return obj !== undefined && obj !== null && klass === type; 
-    }
 }
 
 /*
