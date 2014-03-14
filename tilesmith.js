@@ -60,6 +60,7 @@
         // put nodes into columns
         var count = 0
         tilesmith.list.forEach(function(node){
+            node.style.width = tilesmith.computeWidth - tilesmith.margin + 'px'
             if (count > tilesmith.colCount - 1) {count=0;}
             cols[count].appendChild(node);
             count ++;
@@ -74,7 +75,6 @@
 
     // Balance the tallest and shortest
     function relocate() {
-        console.log('1')
         var cols = document.querySelectorAll('.tilesmith-col')
           , cols = slice(cols)
 
@@ -95,10 +95,22 @@
         }
     }
 
+    var resizing = function() {
+        buildProps()
+        colBuilder()
+        relocate()
+    }
+
     var init = function(props) {
         buildProps()
         colBuilder()
         relocate()
+
+        var timer
+        window.onresize = function(){
+            timer && clearTimeout(timer)
+            timer = setTimeout(resizing, 100)
+        }
     }
 
     // onResize
@@ -114,7 +126,6 @@
       , append  : add(data, 'append')
       , prepend : add(data, 'prepend')
     }
-
 }
 
 tilesmith('#container').init({});
