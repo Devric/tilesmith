@@ -19,7 +19,8 @@
       , fragment = document.createDocumentFragment
 
     // defaut prop
-    var tilesmith = this
+    var tilesmith = new function tilesmith() {return this}
+      , resizeTimer
 
     var buildProps = function() {
         tilesmith.ctn      = document.querySelector(el)
@@ -96,6 +97,8 @@
     }
 
     var resizing = function() {
+        resizeTimer && clearTimeout(resizeTimer)
+        resizeTimer = null
         buildProps()
         colBuilder()
         relocate()
@@ -106,10 +109,9 @@
         colBuilder()
         relocate()
 
-        var timer
         window.onresize = function(){
-            timer && clearTimeout(timer)
-            timer = setTimeout(resizing, 100)
+            resizeTimer && clearTimeout(resizeTimer)
+            resizeTimer = setTimeout(resizing, 100)
         }
     }
 
