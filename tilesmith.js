@@ -70,27 +70,29 @@
         cols.forEach(function(col){
             tilesmith.ctn.appendChild(col)
         })
-        /*
-        */
     }
 
+    // Balance the tallest and shortest
     function relocate() {
+        console.log('1')
         var cols = document.querySelectorAll('.tilesmith-col')
           , cols = slice(cols)
-          , tallest , shortest
 
-        var tallestEl = cols.reduce(function(a,b){
-            return ( getStyle(a).height > getStyle(b).height ? a : b )
-        })
         var shortestEl = cols.reduce(function(a,b){
-            return ( getStyle(a).height < getStyle(b).height ? a : b )
+            return ( parseInt(getStyle(a).height) < parseInt(getStyle(b).height) ? a : b )
+        })
+        var tallestEl = cols.reduce(function(a,b){
+            return ( parseInt(getStyle(a).height) > parseInt(getStyle(b).height) ? a : b )
         })
 
-        var tallest  = getStyle(tallestEl).height
-          , shortest = getStyle(shortestEl).height
+        var tallest  = parseInt(getStyle(tallestEl).height)
+          , shortest = parseInt(getStyle(shortestEl).height)
+          , lastEl   = parseInt(getStyle(tallestEl.lastChild).height)
 
-        console.log(tallest)
-        console.log(shortest)
+        if (( shortest + lastEl ) < tallest) {
+            shortestEl.appendChild(tallestEl.lastChild)
+            relocate()
+        }
     }
 
     var init = function(props) {
@@ -115,7 +117,5 @@
 
 }
 
-tilesmith('#container').init({ 
-
-});
+tilesmith('#container').init({});
 
