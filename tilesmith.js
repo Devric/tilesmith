@@ -37,9 +37,9 @@
         document.body.appendChild(faker)
         var  elStyle = getStyle(faker)
 
-        tilesmith.margin    = parseInt(elStyle.marginRight)
-        tilesmith.colWidth  = parseInt(elStyle.width)
-        tilesmith.colCount  = Math.floor(tilesmith.ctnWidth / tilesmith.colWidth)
+        tilesmith.margin   = parseInt(elStyle.marginRight)
+        tilesmith.colWidth = parseInt(elStyle.width)
+        tilesmith.colCount = Math.floor(tilesmith.ctnWidth / tilesmith.colWidth)
 
         tilesmith.computeWidth    = tilesmith.ctnWidth / tilesmith.colCount
         tilesmith.computeColWidth = tilesmith.computeWidth - (tilesmith.margin * (tilesmith.colCount - 1) / tilesmith.colCount) + 'px'
@@ -138,7 +138,7 @@
     }
 
     var init = function(props) {
-        buildProps()
+        buildProps(props)
         colBuilder()
         relocate()
 
@@ -162,6 +162,4 @@
       , prepend : add(data, 'prepend')
     }
 }
-
-tilesmith('#container').init({});
 
