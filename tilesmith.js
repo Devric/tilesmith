@@ -42,7 +42,7 @@
         tilesmith.colCount  = Math.floor(tilesmith.ctnWidth / tilesmith.colWidth)
 
         tilesmith.computeWidth    = tilesmith.ctnWidth / tilesmith.colCount
-        tilesmith.computeColWidth = tilesmith.computeWidth - ( tilesmith.margin * 3 /4 ) + 'px'
+        tilesmith.computeColWidth = tilesmith.computeWidth - (tilesmith.margin * (tilesmith.colCount - 1) / tilesmith.colCount) + 'px'
 
         // remove faker
         document.body.removeChild(faker)
