@@ -1,10 +1,11 @@
 # Tile Smith
 
-## create simple vertical tiling from existing dom or {}
+### create simple vertical tiling from existing dom or {}
 
 not ready to be used, resize memory leak!!
 
 Dependency : none;
+
 Browser    : ie 8+
 
 todos

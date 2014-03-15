@@ -16,12 +16,16 @@
 		   document.defaultView.getComputedStyle(el, "");
         }
       , slice = Function.prototype.call.bind(Array.prototype.slice)
-      , fragment = document.createDocumentFragment
+    ;
 
-    // defaut prop
-    var tilesmith = new function tilesmith() {return this}
-      , resizeTimer
+    // defaut variables
+    var tilesmith   = new function tilesmith() {return this}
+      , resizeTimer = null
+    ;
 
+    /**
+     *  Build properties
+     */
     var buildProps = function() {
         tilesmith.ctn      = document.querySelector(el)
         tilesmith.ctnWidth = parseInt(getStyle(tilesmith.ctn).width)
@@ -43,6 +47,9 @@
         document.body.removeChild(faker)
     }
 
+    /**
+     *  Build columns
+     */
     var colBuilder = function(prop) {
 
         var cols = []
@@ -51,11 +58,11 @@
         // create col DOM el
         var i =0
         for (; i<tilesmith.colCount; i++) {
-        var div             = document.createElement('div')
-            div.className   = 'tilesmith-col'
-            div.style.width = tilesmith.computeWidth + 'px'
-            div.style.float = 'left'
-            cols.push(div)
+            var div             = document.createElement('div')
+                div.className   = 'tilesmith-col'
+                div.style.width = tilesmith.computeWidth + 'px'
+                div.style.float = 'left'
+                cols.push(div)
         }
 
         // put nodes into columns
@@ -74,7 +81,16 @@
         })
     }
 
-    // Balance the tallest and shortest
+    /**
+     *  If no column changes adjust width
+     */
+    var colAdjust = function() {
+
+    }
+
+    /**
+     *  Balance the tallest and shortest
+     */
     function relocate() {
         var cols = document.querySelectorAll('.tilesmith-col')
           , cols = slice(cols)
@@ -97,11 +113,17 @@
     }
 
     var resizing = function() {
+        var oldColCount = tilesmith.colCount
+
         resizeTimer && clearTimeout(resizeTimer)
         resizeTimer = null
         buildProps()
-        colBuilder()
+
+        oldColCount !== tilesmith.colCount ? colBuilder() : colAdjust()
+
         relocate()
+
+        oldColCount = null
     }
 
     var init = function(props) {
