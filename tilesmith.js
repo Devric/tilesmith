@@ -58,17 +58,20 @@
         // create col DOM el
         var i =0
         for (; i<tilesmith.colCount; i++) {
-            var div             = document.createElement('div')
-                div.className   = 'tilesmith-col'
-                div.style.width = tilesmith.computeWidth + 'px'
-                div.style.float = 'left'
-                cols.push(div)
+            var col             = document.createElement('div')
+                col.className   = 'tilesmith-col'
+                col.style.width = tilesmith.computeWidth - ( tilesmith.margin * 3 /4 ) + 'px'
+                col.style.float = 'left'
+
+                col.style.marginRight = tilesmith.margin + 'px'
+                if (i === tilesmith.colCount - 1) { col.style.marginRight = 0 }
+                cols.push(col)
         }
 
         // put nodes into columns
         var count = 0
         tilesmith.list.forEach(function(node){
-            node.style.width = tilesmith.computeWidth - tilesmith.margin + 'px'
+            node.style.width = '100%'
             if (count > tilesmith.colCount - 1) {count=0;}
             cols[count].appendChild(node);
             count ++;
