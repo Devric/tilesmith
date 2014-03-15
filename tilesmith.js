@@ -41,7 +41,8 @@
         tilesmith.colWidth  = parseInt(elStyle.width)
         tilesmith.colCount  = Math.floor(tilesmith.ctnWidth / tilesmith.colWidth)
 
-        tilesmith.computeWidth = tilesmith.ctnWidth / tilesmith.colCount
+        tilesmith.computeWidth    = tilesmith.ctnWidth / tilesmith.colCount
+        tilesmith.computeColWidth = tilesmith.computeWidth - ( tilesmith.margin * 3 /4 ) + 'px'
 
         // remove faker
         document.body.removeChild(faker)
@@ -60,8 +61,9 @@
         for (; i<tilesmith.colCount; i++) {
             var col             = document.createElement('div')
                 col.className   = 'tilesmith-col'
-                col.style.width = tilesmith.computeWidth - ( tilesmith.margin * 3 /4 ) + 'px'
+                col.style.width = tilesmith.computeColWidth
                 col.style.float = 'left'
+                col.setAttribute('data-id', i)
 
                 col.style.marginRight = tilesmith.margin + 'px'
                 if (i === tilesmith.colCount - 1) { col.style.marginRight = 0 }
@@ -88,7 +90,13 @@
      *  If no column changes adjust width
      */
     var colAdjust = function() {
+        var cols = tilesmith.ctn.querySelectorAll('.tilesmith-col')
 
+        slice(cols).forEach(function(col){
+            col.style.width = tilesmith.computeColWidth
+        })
+
+        relocate()
     }
 
     /**
