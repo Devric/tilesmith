@@ -2,14 +2,18 @@
 
 ### create simple vertical tiling from existing dom or {}
 
-light memory leak, occurs when rapidly continous resizing
+- Dependency : none
+- Browser    : ie 8+
 
-Dependency : none;
-
-Browser    : ie 8+
-
-todos
+Todos
+- add doc
+- light memory leak, occurs when rapidly continous resizing
 - !!fix memory leak
 - build from {} instead of dom
 - add tests
 - refactor
+- browser compatibility
+
+Logs
+v0.0.4 - Fix width bug not getting the correct css style
+v0.0.3 - finalize col calculation
