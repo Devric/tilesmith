@@ -21,6 +21,11 @@
     // defaut variables
     var tilesmith   = new function tilesmith() {return this}
       , resizeTimer = null
+      , opts        = {
+            width  : 0
+          , margin : 0
+          , lock   : false  // no col/item resizing
+        }
     ;
 
     /**
@@ -33,9 +38,9 @@
 
         // create fake data
         var faker = document.createElement('div')
-        faker.className = 'item hidden'
-        document.body.appendChild(faker)
-        var  elStyle = getStyle(faker)
+            faker.className = 'item hidden'
+            tilesmith.ctn.appendChild(faker)
+            var  elStyle = getStyle(faker)
 
         tilesmith.margin   = parseInt(elStyle.marginRight)
         tilesmith.colWidth = parseInt(elStyle.width)
@@ -45,7 +50,7 @@
         tilesmith.computeColWidth = tilesmith.computeWidth - (tilesmith.margin * (tilesmith.colCount - 1) / tilesmith.colCount) + 'px'
 
         // remove faker
-        document.body.removeChild(faker)
+        tilesmith.ctn.removeChild(faker)
     }
 
     /**
@@ -95,7 +100,6 @@
         slice(cols).forEach(function(col){
             col.style.width = tilesmith.computeColWidth
         })
-
         relocate()
     }
 
